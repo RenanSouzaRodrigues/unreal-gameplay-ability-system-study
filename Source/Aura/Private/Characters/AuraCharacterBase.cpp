@@ -2,25 +2,22 @@
 
 
 #include "Characters/AuraCharacterBase.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
-AAuraCharacterBase::AAuraCharacterBase()
-{
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+AAuraCharacterBase::AAuraCharacterBase() {
 	PrimaryActorTick.bCanEverTick = true;
-
+	this->Weapon = this->CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+	this->Weapon->SetupAttachment(this->GetMesh(), FName("WeaponSocket"));
+	this->Weapon->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 }
 
 // Called when the game starts or when spawned
-void AAuraCharacterBase::BeginPlay()
-{
+void AAuraCharacterBase::BeginPlay() {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
-void AAuraCharacterBase::Tick(float DeltaTime)
-{
+void AAuraCharacterBase::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-
 }

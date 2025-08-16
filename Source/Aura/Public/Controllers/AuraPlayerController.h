@@ -15,14 +15,22 @@ private:
 	TObjectPtr<class UInputMappingContext> InputMappingContext;
 
 	UPROPERTY(EditAnywhere, Category="Controller Inputs")
-	TObjectPtr<class UInputAction> MovementInputAction;	
+	TObjectPtr<class UInputAction> MovementInputAction;
+
+private:
+	TScriptInterface<class IAuraTargetInterface> LastTargetActor;
+	TScriptInterface<IAuraTargetInterface> CurrentTargetActor;
 	
 public:
 	AAuraPlayerController();
+	virtual void PlayerTick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
 	void Move(const struct FInputActionValue& InputActionValue);
+
+private:
+	void CursorTrace();
 };

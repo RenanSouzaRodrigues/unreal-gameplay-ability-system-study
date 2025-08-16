@@ -4,9 +4,16 @@
 #include "Controllers/AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Interfaces/AuraTargetInterface.h"
 
 AAuraPlayerController::AAuraPlayerController() {
 	this->bReplicates = true;
+}
+
+void AAuraPlayerController::PlayerTick(float DeltaTime) {
+	Super::PlayerTick(DeltaTime);
+
+	this->CursorTrace();
 }
 
 
@@ -50,4 +57,24 @@ void AAuraPlayerController::Move(const struct FInputActionValue& InputActionValu
 		playerPawn->AddMovementInput(forwardVector, axisValues.X);
 		playerPawn->AddMovementInput(rightVector, axisValues.Y);
 	}
+}
+
+void AAuraPlayerController::CursorTrace() {
+	FHitResult cursorHit;
+	this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, cursorHit);
+
+	if (!cursorHit.bBlockingHit) return;
+
+	if (!cursorHit.GetActor()->Implements<UAuraTargetInterface>()) {
+		if (this->LastTargetActor) this->LastTargetActor->UnhighlightActor();
+	}
+	
+	this->LastTargetActor = this->CurrentTargetActor;
+	this->CurrentTargetActor = cursorHit.GetActor();
+
+	if ((!this->LastTargetActor && !this->CurrentTargetActor) || (this->CurrentTargetActor == this->LastTargetActor)) return;
+	
+	if (this->CurrentTargetActor) this->CurrentTargetActor->HighlightActor();
+
+	if (this->LastTargetActor) this->LastTargetActor->UnhighlightActor();
 }

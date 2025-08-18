@@ -2,6 +2,21 @@
 
 
 #include "Characters/AuraEnemyCharacter.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+
+
+AAuraEnemyCharacter::AAuraEnemyCharacter() {
+	this->AbilitySystemComponent = this->CreateDefaultSubobject<UAuraAbilitySystemComponent>("Ability System Component");
+	this->AbilitySystemComponent->SetIsReplicated(true);
+	this->AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal); // Minimal is good for AI controlled characters.
+
+	this->AttributeSet = this->CreateDefaultSubobject<UAttributeSet>("Attribute Set");
+}
+
+void AAuraEnemyCharacter::BeginPlay() {
+	Super::BeginPlay();
+	this->AbilitySystemComponent->InitAbilityActorInfo(this, this);
+}
 
 void AAuraEnemyCharacter::HighlightActor() {
 	this->GetMesh()->SetRenderCustomDepth(true);

@@ -21,3 +21,11 @@ void AAuraCharacterBase::BeginPlay() {
 void AAuraCharacterBase::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 }
+
+UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const {
+	return this->AbilitySystemComponent;
+}
+
+UAttributeSet* AAuraCharacterBase::GetAttributeSet() const {
+	return this->AttributeSet;
+}

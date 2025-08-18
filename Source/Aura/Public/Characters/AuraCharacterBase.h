@@ -3,17 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "AuraCharacterBase.generated.h"
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 protected:
 	UPROPERTY(EditAnywhere, Category="Actor Components")
 	TObjectPtr<class USkeletalMeshComponent> Weapon;
+
+	UPROPERTY(EditAnywhere, Category="Abilities")
+	TObjectPtr<class UAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(EditAnywhere, Category="Abilities")
+	TObjectPtr<class UAttributeSet> AttributeSet;
 	
 public:
 	// Sets default values for this character's properties
@@ -26,4 +33,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAttributeSet* GetAttributeSet() const;
 };

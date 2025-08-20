@@ -15,20 +15,29 @@ struct FWidgetControllerParams {
 
 	FWidgetControllerParams() {}
 
-	FWidgetControllerParams(APlayerController* playerController, APlayerState* playerState, UAbilitySystemComponent* abilitySystemComponent, UAttributeSet* attributeSet) :
-		PlayerController(playerController), PlayerState(playerState), AbilitySystemComponent(abilitySystemComponent), AttributeSet(attributeSet) {}
+	FWidgetControllerParams(
+		APlayerController* playerController,
+		APlayerState* playerState,
+		UAbilitySystemComponent* abilitySystemComponent,
+		UAttributeSet* attributeSet
+	) :
+		PlayerController(playerController),
+		PlayerState(playerState),
+		AbilitySystemComponent(abilitySystemComponent),
+		AttributeSet(attributeSet) {}
+
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<APlayerController> PlayerController {nullptr};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<APlayerController> PlayerController;
+	TObjectPtr<APlayerState> PlayerState {nullptr};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<APlayerState> PlayerState;
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent {nullptr};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UAttributeSet> AttributeSet;
+	TObjectPtr<UAttributeSet> AttributeSet {nullptr};
 };
 
 UCLASS()
